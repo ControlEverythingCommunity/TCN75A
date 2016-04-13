@@ -23,12 +23,17 @@ public class TCN75A
 		Thread.sleep(500);
 		
 		//Read 2 bytes of data
-		// cTemp msb, cTemp lsb
+		// temp msb, temp lsb
 		byte[] data = new byte[2];
 		device.read(0x00, data, 0, 2);
 		
 		// Convert the data to 12-bits
-		double cTemp = ((((data[0] & 0xFF) * 256) + (data[1] & 0xFF)) / 16) * 0.0625;
+		int temp = ((((data[0] & 0xFF) * 256) + (data[1] & 0xF0)) / 16);
+		if(temp > 2047)
+		{
+			temp -= 4096;	
+		}
+		double cTemp = temp * 0.0625;
 		double fTemp = (cTemp * 1.8) + 32;
 		
 		// Output data to screen
