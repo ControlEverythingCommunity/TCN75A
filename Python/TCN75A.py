@@ -19,11 +19,14 @@ time.sleep(0.5)
 
 # TCN75A address, 0x48(72)
 # Read data back from 0x00(00), 2 bytes
-# cTemp MSB, cTemp LSB
+# temp MSB, temp LSB
 data = bus.read_i2c_block_data(0x48, 0x00, 2)
 
 # Convert the data to 12-bits
-cTemp = ((data[0] * 256 + data[1]) / 16) * 0.0625
+temp = ((data[0] * 256) + (data[1] & 0xF0)) / 16
+if temp > 2047 :
+  temp -= 4096
+cTemp = temp  * 0.0625
 fTemp = (cTemp * 1.8) + 32
 
 # Output data to screen
