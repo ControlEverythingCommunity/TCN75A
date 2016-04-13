@@ -11,6 +11,7 @@
 #define Addr 0x48
 
 float cTemp = 0.0, fTemp = 0.0;
+int temp = 0;
 void setup()
 {
   // Set variable
@@ -48,7 +49,7 @@ void loop()
   Wire.requestFrom(Addr, 2);
 
   // Read 2 bytes of data
-  // cTemp msb, cTemp lsb
+  // temp msb, temp lsb
   if (Wire.available() == 2)
   {
     data[0] = Wire.read();
@@ -56,7 +57,12 @@ void loop()
   }
 
   // Convert the data to 12 bits
-  cTemp = ((data[0] * 256) + (data[1] & 0xF0)) * 0.0625;
+  temp = (((data[0] * 256) + (data[1] & 0xF0)) / 16);
+  if(temp > 2047)
+  {
+    temp -= 4096;	
+  }
+  cTemp = temp * 0.0625;
   fTemp = (cTemp * 1.8) + 32;
 
   // Output data to dashboard
