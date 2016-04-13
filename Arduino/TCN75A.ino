@@ -50,7 +50,12 @@ void loop()
   }
 
   // Convert the data to 12-bits
-  float cTemp = (((data[0] * 256) + data[1]) / 16) * 0.0625;
+  int temp = (((data[0] * 256) + (data[1] & 0xF0)) / 16);
+	if(temp > 2047)
+	{
+	    temp -= 4096;	
+  }
+  float cTemp = temp * 0.0625;
   float fTemp = (cTemp * 1.8) + 32;
 
   // Output data to serial monitor
