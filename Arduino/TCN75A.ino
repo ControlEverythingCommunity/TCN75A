@@ -42,7 +42,7 @@ void loop()
   Wire.requestFrom(Addr, 2);
 
   // Read 2 bytes of data
-  // cTemp msb, cTemp lsb
+  // temp msb, temp lsb
   if (Wire.available() == 2)
   {
     data[0] = Wire.read();
@@ -51,10 +51,10 @@ void loop()
 
   // Convert the data to 12-bits
   int temp = (((data[0] * 256) + (data[1] & 0xF0)) / 16);
-	if(temp > 2047)
-	{
-	    temp -= 4096;	
-  }
+  if(temp > 2047)
+  {
+    temp -= 4096;	
+   }
   float cTemp = temp * 0.0625;
   float fTemp = (cTemp * 1.8) + 32;
 
