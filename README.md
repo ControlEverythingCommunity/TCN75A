@@ -62,4 +62,17 @@ Verify and flash the code on your Photon. Code output is shown in logs at dashbo
 
 https://dashboard.particle.io/user/logs
 
+
+## C
+
+Download (or git pull) the code in Beaglebone Black.
+
+Compile the c program.
+```cpp
+$>gcc TCN75A.c -o TCN75A
+```
+Run the c program.
+```cpp
+$>./TCN75A
+```
 #####The code output is temperature reading in degree celsius and fahrenheit.
